@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unified Engineering Workbench | Pass Science Works R&D</title>
+  <link rel="stylesheet" href="css/workbench.css" />
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="header">
+    <div class="brand">
+      <div class="brand-icon">⚡</div>
+      <div class="brand-text">
+        <h1>Unified Engineering Workbench</h1>
+        <div class="brand-subtitle">Pass Science Works | R&D Internship 2026-2027</div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs" id="nav-tabs">
+      <button class="nav-tab active" data-tab="tab-geometry" id="btn-tab-geometry">
+        <span>📐</span> Geometry View
+      </button>
+      <button class="nav-tab" data-tab="tab-thermal" id="btn-tab-thermal">
+        <span>🔥</span> Thermal FEA
+      </button>
+      <button class="nav-tab" data-tab="tab-performance" id="btn-tab-performance">
+        <span>🚀</span> Performance
+      </button>
+      <button class="nav-tab" data-tab="tab-hardware" id="btn-tab-hardware">
+        <span>🔌</span> Hardware View
+      </button>
+      <button class="nav-tab" data-tab="tab-backprop" id="btn-tab-backprop">
+        <span>🧠</span> Backpropagation
+      </button>
+    </nav>
+
+    <div class="header-status">
+      <div class="status-pill" id="backend-status-pill">
+        <div class="status-dot"></div>
+        <span id="backend-status-text">C++ Core: ONLINE</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Global Actionable Message Box -->
+  <div id="global-alert-container" style="max-width: 1600px; margin: 1rem auto 0; padding: 0 1.5rem; display: none;">
+    <div class="alert alert-danger" id="global-alert">
+      <span id="alert-icon">⚠️</span>
+      <span id="alert-msg"></span>
+    </div>
+  </div>
+
+  <!-- Main Viewports Container -->
+  <main class="main-content">
+
+    <!-- 1. GEOMETRY VIEW (CAD STL & ANSYS Point Cloud) -->
+    <section class="tab-pane active" id="tab-geometry">
+      <div class="view-grid-2col">
+        
+        <!-- Controls Column -->
+        <div class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title"><span>📂</span> Dataset Ingestion</h2>
+            <div class="panel-actions">
+              <button class="btn btn-secondary btn-sm" id="btn-load-sample-stl">Sample STL</button>
+              <button class="btn btn-secondary btn-sm" id="btn-load-sample-csv">Sample ANSYS</button>
+            </div>
+          </div>
+
+          <!-- Drag and Drop Zone -->
+          <div class="drop-zone" id="geometry-drop-zone">
+            <div class="drop-zone-icon">📥</div>
+            <div style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.25rem;">Drag & Drop ASCII STL or ANSYS CSV</div>
+            <div style="font-size: 0.75rem; color: var(--text-dim);">or click to browse local files</div>
+            <input type="file" id="file-input-geometry" accept=".stl,.csv,.txt" style="display: none;" />
+          </div>
+
+          <div style="margin-top: 1.25rem;">
+            <div class="form-group">
+              <label class="form-label">Display Mode</label>
+              <div class="form-row">
+                <button class="btn btn-secondary btn-sm active" id="btn-mode-stl">STL Geometry</button>
+                <button class="btn btn-secondary btn-sm" id="btn-mode-pointcloud">ANSYS Heat Map</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Tested File Size Limits</label>
+              <div style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">
+                • ASCII STL: Stream-validated up to <strong>250,000 facets</strong> (~50 MB).<br/>
+                • ANSYS CSV: Validated up to <strong>1,000,000 nodes</strong> (~65 MB).
+              </div>
+            </div>
+
+            <!-- Model Metadata Card -->
+            <div id="model-meta-card" style="margin-top: 1rem; padding: 0.85rem; background: rgba(0,0,0,0.25); border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.8rem;">
+              <div style="font-weight: 600; color: #fff; margin-bottom: 0.4rem;" id="meta-title">Dataset Properties</div>
+              <div id="meta-details" style="color: var(--text-muted); line-height: 1.5;">
+                Load an ASCII STL or ANSYS nodal CSV export to inspect geometry and temperature fields.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D WebGL Viewport Column -->
+        <div class="panel" style="padding: 0.75rem;">
+          <div class="viewport-container" id="viewport-box">
+            <canvas class="viewport-canvas" id="canvas-3d"></canvas>
+
+            <!-- On-Screen Viewport Tools -->
+            <div class="viewport-overlay">
+              <button class="btn btn-secondary btn-sm" id="btn-fit-view">🔍 Fit to View</button>
+              <button class="btn btn-secondary btn-sm" id="btn-reset-cam">🔄 Reset Orbit</button>
+            </div>
+
+            <!-- Temperature Legend Bar -->
+            <div class="viewport-legend" id="viewport-legend" style="display: none;">
+              <div style="font-weight: 600; font-size: 0.75rem; color: #fff;">Temperature Field [°C]</div>
+              <div class="legend-bar"></div>
+              <div class="legend-labels">
+                <span id="legend-min">20.0 °C</span>
+                <span id="legend-mid">70.0 °C</span>
+                <span id="legend-max">120.0 °C</span>
+              </div>
+            </div>
+
+            <!-- Node Inspector Tooltip -->
+            <div class="node-tooltip" id="node-tooltip"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2. THERMAL ANALYSIS VIEW (1D FEA Solver & Convergence) -->
+    <section class="tab-pane" id="tab-thermal">
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-label">Elements (N)</div>
+          <div class="metric-val" id="metric-fea-elements">10</div>
+          <div class="metric-sub">Uniform 2-node linear</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Max Midpoint Error</div>
+          <div class="metric-val" id="metric-fea-max-err">1.2500 °C</div>
+          <div class="metric-sub" id="metric-fea-rate">Theoretical: 125 * h^2</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">L2 Interpolation Error</div>
+          <div class="metric-val" id="metric-fea-l2-err">1.2500 °C</div>
+          <div class="metric-sub">Root Mean Squared</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Compute Time</div>
+          <div class="metric-val" id="metric-fea-time">< 0.01 ms</div>
+          <div class="metric-sub">Thomas O(N) Solver</div>
+        </div>
+      </div>
+
+      <div class="view-grid-2col">
+        <!-- Solver Parameters Column -->
+        <div class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title"><span>⚙️</span> Thermal Parameters</h2>
+            <div class="panel-actions">
+              <button class="btn btn-primary btn-sm" id="btn-run-fea">Solve FEA</button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Rod Length L [m]</label>
+              <input type="number" class="form-control" id="input-L" value="1.0" step="0.1" min="0.01" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Area A [m²]</label>
+              <input type="number" class="form-control" id="input-A" value="0.0001" step="0.00001" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Conductivity k [W/(m·K)]</label>
+              <input type="number" class="form-control" id="input-k" value="10.0" step="1.0" min="0.1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Heat Gen q [W/m³]</label>
+              <input type="number" class="form-control" id="input-q" value="10000.0" step="1000" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Prescribed T(0) [°C]</label>
+              <input type="number" class="form-control" id="input-T0" value="100.0" step="5" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Prescribed T(L) [°C]</label>
+              <input type="number" class="form-control" id="input-TL" value="20.0" step="5" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Element Count N</label>
+            <div class="form-row">
+              <button class="btn btn-secondary btn-sm" data-n="10">N = 10</button>
+              <button class="btn btn-secondary btn-sm" data-n="20">N = 20</button>
+              <button class="btn btn-secondary btn-sm" data-n="40">N = 40</button>
+              <button class="btn btn-secondary btn-sm" data-n="80">N = 80</button>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 1rem;">
+            <button class="btn btn-secondary btn-sm" style="width: 100%;" id="btn-run-convergence">
+              📊 Run Full Convergence Study (N=10,20,40,80)
+            </button>
+          </div>
+
+          <div class="form-group">
+            <button class="btn btn-secondary btn-sm" style="width: 100%;" id="btn-export-fea-csv">
+              💾 Export Solution CSV
+            </button>
+          </div>
+        </div>
+
+        <!-- Charts Column -->
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <div class="panel">
+            <div class="panel-header">
+              <h3 class="panel-title"><span>📈</span> Temperature Distribution vs Analytical Solution</h3>
+            </div>
+            <div class="chart-container">
+              <canvas class="chart-canvas" id="canvas-thermal-chart"></canvas>
+            </div>
+          </div>
+
+          <div class="panel" id="panel-convergence-study">
+            <div class="panel-header">
+              <h3 class="panel-title"><span>📉</span> Mesh Convergence Rate (Log-Log Midpoint Error)</h3>
+            </div>
+            <div class="chart-container">
+              <canvas class="chart-canvas" id="canvas-convergence-chart"></canvas>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. PERFORMANCE VIEW (Multicore Benchmarks) -->
+    <section class="tab-pane" id="tab-performance">
+      <div class="panel" style="margin-bottom: 1.5rem;">
+        <div class="panel-header">
+          <h2 class="panel-title"><span>🖥️</span> Multicore Batch Workload Execution (C++17 Thread Pool)</h2>
+          <div class="panel-actions">
+            <button class="btn btn-primary btn-sm" id="btn-run-benchmark">Execute Benchmark</button>
+            <button class="btn btn-secondary btn-sm" id="btn-export-benchmark-csv">Export Benchmark CSV</button>
+          </div>
+        </div>
+
+        <div class="metrics-row">
+          <div class="metric-card">
+            <div class="metric-label">Detected CPU</div>
+            <div class="metric-val" style="font-size: 1.05rem;" id="perf-cpu-name">Intel Core i5-13500H</div>
+            <div class="metric-sub" id="perf-cores-sub">16 Logical Cores</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Workload Batch</div>
+            <div class="metric-val" id="perf-workload-val">500 Solves</div>
+            <div class="metric-sub">40 elements/case, 5 reps</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Numerical Agreement</div>
+            <div class="metric-val" style="color: var(--accent-emerald);" id="perf-agreement-val">0.00 C</div>
+            <div class="metric-sub">Max diff <= 1e-8 °C: VERIFIED</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Compiler & Flags</div>
+            <div class="metric-val" style="font-size: 0.95rem;" id="perf-compiler-val">GCC 14.2.0</div>
+            <div class="metric-sub">-O3 (Release / Static)</div>
+          </div>
+        </div>
+
+        <div class="view-grid-equal" style="margin-top: 1rem;">
+          <div>
+            <div class="table-responsive">
+              <table class="data-table" id="table-benchmark-results">
+                <thead>
+                  <tr>
+                    <th>Workers (p)</th>
+                    <th>Median [ms]</th>
+                    <th>Speedup (T1/Tp)</th>
+                    <th>Efficiency</th>
+                    <th>5 Measured Repetitions [ms]</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-benchmarks">
+                  <tr><td colspan="5" style="text-align: center; color: var(--text-dim);">Click 'Execute Benchmark' to run 5-repetition multi-threaded profiling.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="chart-container" style="height: 320px;">
+            <canvas class="chart-canvas" id="canvas-benchmark-chart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. HARDWARE VIEW (Embedded Integration) -->
+    <section class="tab-pane" id="tab-hardware">
+      <div class="view-grid-equal">
+        
+        <!-- Live Devices & Mock Telemetry -->
+        <div class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title"><span>🔌</span> Host-Connected Embedded Targets</h2>
+            <div class="panel-actions">
+              <button class="btn btn-secondary btn-sm" id="btn-refresh-devices">🔄 Refresh Link</button>
+            </div>
+          </div>
+
+          <div id="devices-list-container" style="display: flex; flex-direction: column; gap: 1rem;">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Architecture, Pinout & JTAG Rationale -->
+        <div class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title"><span>📑</span> Interface & Voltage Specification</h2>
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+            <button class="btn btn-secondary btn-sm active" id="btn-sub-table">Pin-Voltage Table</button>
+            <button class="btn btn-secondary btn-sm" id="btn-sub-diagram">Block Diagram</button>
+            <button class="btn btn-secondary btn-sm" id="btn-sub-jtag">JTAG Rationale</button>
+          </div>
+
+          <div id="hardware-spec-content" style="font-size: 0.82rem; line-height: 1.5; color: var(--text-muted); max-height: 480px; overflow-y: auto; padding-right: 0.5rem;">
+            <!-- Loaded dynamically -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. BACKPROPAGATION VIEW (Task F Derivation & Checks) -->
+    <section class="tab-pane" id="tab-backprop">
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-label">Target Sample</div>
+          <div class="metric-val">x=1, y=2</div>
+          <div class="metric-sub">Single regression pair</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Architecture</div>
+          <div class="metric-val" style="font-size: 1.05rem;">tanh(wx+b) -> vh+c</div>
+          <div class="metric-sub">Loss: J = 0.5 * (y_hat - y)^2</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Finite Diff Checks</div>
+          <div class="metric-val" style="color: var(--accent-emerald);" id="bp-check-status">ALL PASSED</div>
+          <div class="metric-sub">eps = 1e-6, err <= 1e-5</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">100-Step Convergence</div>
+          <div class="metric-val" id="bp-final-loss">1.70e-20</div>
+          <div class="metric-sub">Initial Loss: 1.1825</div>
+        </div>
+      </div>
+
+      <div class="view-grid-equal">
+        <div class="panel">
+          <div class="panel-header">
+            <h3 class="panel-title"><span>🔍</span> Central Finite Difference Verification</h3>
+            <button class="btn btn-primary btn-sm" id="btn-run-backprop">Re-run 100 Steps</button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Parameter</th>
+                  <th>Analytical ∂J/∂θ</th>
+                  <th>Numerical Central Diff</th>
+                  <th>Absolute Error</th>
+                  <th>Verification</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-grad-checks">
+                <tr><td>w</td><td>-1.20946</td><td>-1.20946</td><td>1.13e-10</td><td><span class="badge badge-connected">PASS</span></td></tr>
+                <tr><td>b</td><td>-1.20946</td><td>-1.20946</td><td>1.13e-10</td><td><span class="badge badge-connected">PASS</span></td></tr>
+                <tr><td>v</td><td>-0.71068</td><td>-0.71068</td><td>5.25e-11</td><td><span class="badge badge-connected">PASS</span></td></tr>
+                <tr><td>c</td><td>-1.53788</td><td>-1.53788</td><td>1.12e-10</td><td><span class="badge badge-connected">PASS</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; background: rgba(0,0,0,0.25); padding: 0.75rem; border-radius: 8px;">
+            <strong>Gradient Direction Insight:</strong><br/>
+            All four gradients are strictly negative because the initial prediction $\hat{y} \approx 0.462$ underestimates target $y = 2.0$. In gradient descent ($\theta \leftarrow \theta - \eta \nabla$), subtracting a negative quantity increases every parameter, boosting $\hat{y}$ upwards toward the target!
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3 class="panel-title"><span>📉</span> 100-Step Training Loss Curve</h3>
+          </div>
+          <div class="chart-container" style="height: 340px;">
+            <canvas class="chart-canvas" id="canvas-backprop-chart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Status Bar Footer -->
+  <footer class="footer">
+    <div class="footer-stats">
+      <div class="footer-stat-item">
+        <span>Target:</span> <strong style="color: var(--text-main);">Windows 11 x64</strong>
+      </div>
+      <div class="footer-stat-item">
+        <span>Backend:</span> <strong style="color: var(--accent-emerald);">C++17 Standalone</strong>
+      </div>
+      <div class="footer-stat-item">
+        <span>Launch-to-Ready:</span> <strong id="footer-ready-time" style="color: var(--accent-blue);">0.18 s</strong>
+      </div>
+    </div>
+    <div>
+      <span>Pass Science Works Common Internship Assessment 2026-2027</span>
+    </div>
+  </footer>
+
+  <!-- Application Scripts -->
+  <script src="js/three_viewer.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
