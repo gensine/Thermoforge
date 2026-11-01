@@ -18,3 +18,5 @@ obj/
 # Antigravity & OS files
 .DS_Store
 Thumbs.db
+*.log
+launch_log.txt

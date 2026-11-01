@@ -187,7 +187,7 @@ class WebGL3DViewer {
           this.camera.pan[0] += dx * factor;
           this.camera.pan[1] -= dy * factor;
         } else {
-          this.camera.azimuth += dx * 0.008;
+          this.camera.azimuth -= dx * 0.008; // Natural orbit: dragging right rotates object right
           this.camera.elevation = Math.max(-1.5, Math.min(1.5, this.camera.elevation + dy * 0.008));
         }
         this.render();

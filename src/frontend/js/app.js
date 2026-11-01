@@ -545,14 +545,183 @@ function switchHardwareSubView(view) {
 
   if (view === 'table') {
     btnT.classList.add('active');
-    container.innerHTML = `<pre style="white-space: pre-wrap; font-family: var(--font-mono); font-size: 0.75rem; color: #cbd5e1;">${hardwareSpecs.table_markdown}</pre>`;
+    container.innerHTML = renderHardwareTable(hardwareSpecs.table_markdown);
   } else if (view === 'diagram') {
     btnD.classList.add('active');
-    container.innerHTML = `<pre style="white-space: pre-wrap; font-family: var(--font-mono); font-size: 0.75rem; color: #38bdf8;">${hardwareSpecs.mermaid}</pre>`;
+    container.innerHTML = renderHardwareDiagram();
   } else {
     btnJ.classList.add('active');
-    container.innerHTML = `<pre style="white-space: pre-wrap; font-family: inherit; font-size: 0.8rem; color: #cbd5e1; line-height: 1.5;">${hardwareSpecs.jtag_rationale}</pre>`;
+    container.innerHTML = renderJTAGRationale(hardwareSpecs.jtag_rationale);
   }
+}
+
+function renderHardwareTable(md) {
+  if (!md) return '<p>No table data</p>';
+  const lines = md.trim().split('\n').map(l => l.trim()).filter(l => l.startsWith('|') && l.endsWith('|'));
+  if (lines.length < 2) return `<pre>${md}</pre>`;
+
+  const headers = lines[0].split('|').map(c => c.trim()).filter(c => c.length > 0);
+  const rows = lines.slice(2).map(line => {
+    return line.split('|').map(c => c.trim()).filter(c => c.length > 0);
+  });
+
+  let html = '<div class="table-responsive"><table class="data-table"><thead><tr>';
+  for (const h of headers) {
+    html += `<th>${h}</th>`;
+  }
+  html += '</tr></thead><tbody>';
+
+  for (const row of rows) {
+    html += '<tr>';
+    for (let i = 0; i < row.length; ++i) {
+      let cell = row[i];
+      cell = cell.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      // Format voltage badges
+      if (cell.includes('+5.0 VDC')) cell = `<span class="badge" style="background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE;">5.0V VBUS</span>`;
+      else if (cell.includes('+3.3 VDC')) cell = `<span class="badge" style="background:#ECFDF5;color:#047857;border:1px solid #A7F3D0;">3.3V IO</span>`;
+      else if (cell.includes('+1.2 VDC')) cell = `<span class="badge" style="background:#FEF3C7;color:#B45309;border:1px solid #FDE68A;">1.2V CORE</span>`;
+      else if (cell.includes('1.2 V to 3.3 V')) cell = `<span class="badge" style="background:#F3E8FF;color:#7E22CE;border:1px solid #E9D5FF;">1.2V ↔ 3.3V</span>`;
+      html += `<td>${cell}</td>`;
+    }
+    html += '</tr>';
+  }
+  html += '</tbody></table></div>';
+  return html;
+}
+
+function renderHardwareDiagram() {
+  return `
+    <div style="background: #FFFFFF; border-radius: var(--radius-md); border: 1px solid var(--border-light); padding: 1rem; box-shadow: var(--shadow-sm); overflow-x: auto;">
+      <svg viewBox="0 0 760 380" style="width: 100%; min-width: 680px; height: auto; font-family: var(--font-sans);" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 8 5 L 0 9 z" fill="#5E4CE6" />
+          </marker>
+          <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 8 5 L 0 9 z" fill="#10B981" />
+          </marker>
+          <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 8 5 L 0 9 z" fill="#0284C7" />
+          </marker>
+          <marker id="arrow-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 8 5 L 0 9 z" fill="#F59E0B" />
+          </marker>
+        </defs>
+
+        <!-- HOST PC -->
+        <rect x="20" y="40" width="160" height="290" rx="12" fill="#F8F9FE" stroke="#5E4CE6" stroke-width="2"/>
+        <rect x="35" y="55" width="130" height="32" rx="6" fill="#5E4CE6"/>
+        <text x="100" y="76" fill="#FFFFFF" font-weight="700" font-size="12" text-anchor="middle">Host PC (Win11)</text>
+        <rect x="35" y="105" width="130" height="42" rx="6" fill="#FFFFFF" stroke="#E2E6F3"/>
+        <text x="100" y="123" fill="#1A1D2E" font-weight="600" font-size="11" text-anchor="middle">USB Port 1 (MPSSE)</text>
+        <text x="100" y="137" fill="#64748B" font-size="9" text-anchor="middle">480 Mbps High-Speed</text>
+
+        <rect x="35" y="165" width="130" height="42" rx="6" fill="#FFFFFF" stroke="#E2E6F3"/>
+        <text x="100" y="183" fill="#1A1D2E" font-weight="600" font-size="11" text-anchor="middle">USB Port 2 (CDC)</text>
+        <text x="100" y="197" fill="#64748B" font-size="9" text-anchor="middle">Virtual COM Telemetry</text>
+
+        <rect x="35" y="240" width="130" height="60" rx="6" fill="#FFFFFF" stroke="#E2E6F3"/>
+        <text x="100" y="260" fill="#1A1D2E" font-weight="700" font-size="11" text-anchor="middle">Thermoforge Workbench</text>
+        <text x="100" y="275" fill="#5E4CE6" font-weight="600" font-size="10" text-anchor="middle">C++17 Engine Core</text>
+        <text x="100" y="289" fill="#64748B" font-size="9" text-anchor="middle">UI Dashboard & telemetry</text>
+
+        <!-- JTAG DEBUG ADAPTER -->
+        <rect x="250" y="40" width="160" height="135" rx="12" fill="#FFFBEB" stroke="#F59E0B" stroke-width="2"/>
+        <rect x="265" y="55" width="130" height="28" rx="6" fill="#F59E0B"/>
+        <text x="330" y="74" fill="#FFFFFF" font-weight="700" font-size="11" text-anchor="middle">FT2232H JTAG Adapter</text>
+        <text x="330" y="105" fill="#1A1D2E" font-weight="600" font-size="10" text-anchor="middle">MPSSE Hardware Engine</text>
+        <text x="330" y="120" fill="#64748B" font-size="9" text-anchor="middle">Max TCK: 30 MHz (Master)</text>
+        <text x="330" y="145" fill="#B45309" font-weight="700" font-size="9" text-anchor="middle">VREF Sensed: 1.2V - 3.3V</text>
+
+        <!-- LEVEL SHIFTER -->
+        <rect x="470" y="40" width="100" height="135" rx="10" fill="#F3E8FF" stroke="#8B5CF6" stroke-width="1.8"/>
+        <text x="520" y="68" fill="#7E22CE" font-weight="700" font-size="11" text-anchor="middle">TXB0108</text>
+        <text x="520" y="86" fill="#1A1D2E" font-weight="600" font-size="9" text-anchor="middle">Level Shifter</text>
+        <text x="520" y="112" fill="#64748B" font-size="9" text-anchor="middle">Port A: 1.2V</text>
+        <text x="520" y="126" fill="#64748B" font-size="9" text-anchor="middle">Port B: 3.3V</text>
+        <text x="520" y="148" fill="#7E22CE" font-weight="600" font-size="8" text-anchor="middle">Auto-Direction</text>
+
+        <!-- MCU TARGET -->
+        <rect x="250" y="215" width="200" height="115" rx="12" fill="#F0F9FF" stroke="#0284C7" stroke-width="2"/>
+        <rect x="265" y="228" width="170" height="26" rx="6" fill="#0284C7"/>
+        <text x="350" y="246" fill="#FFFFFF" font-weight="700" font-size="11" text-anchor="middle">MCU: STM32G474 (Target)</text>
+        <text x="350" y="272" fill="#1A1D2E" font-weight="600" font-size="10" text-anchor="middle">ARM Cortex-M4F @ 170 MHz</text>
+        <text x="350" y="287" fill="#64748B" font-size="9" text-anchor="middle">Rail: +3.3 VDC (±3%)</text>
+        <text x="350" y="303" fill="#0369A1" font-weight="600" font-size="9" text-anchor="middle">SWD / JTAG Slave + SPI Master</text>
+
+        <!-- FPGA TARGET -->
+        <rect x="520" y="215" width="215" height="115" rx="12" fill="#ECFDF5" stroke="#10B981" stroke-width="2"/>
+        <rect x="535" y="228" width="185" height="26" rx="6" fill="#10B981"/>
+        <text x="627" y="246" fill="#FFFFFF" font-weight="700" font-size="11" text-anchor="middle">FPGA: Lattice iCE40UP5K</text>
+        <text x="627" y="272" fill="#1A1D2E" font-weight="600" font-size="10" text-anchor="middle">Fabric: 5.3k LUTs + SPRAM</text>
+        <text x="627" y="287" fill="#64748B" font-size="9" text-anchor="middle">Core: +1.2 VDC | I/O: +3.3 VDC</text>
+        <text x="627" y="303" fill="#047857" font-weight="600" font-size="9" text-anchor="middle">IEEE 1149.1 TAP Port (Slave)</text>
+
+        <!-- CONNECTIONS & ARROWS -->
+        <!-- USB to JTAG -->
+        <line x1="165" y1="125" x2="246" y2="105" stroke="#5E4CE6" stroke-width="2" marker-end="url(#arrow)"/>
+        <!-- USB to MCU -->
+        <line x1="165" y1="185" x2="246" y2="245" stroke="#5E4CE6" stroke-width="2" marker-end="url(#arrow)"/>
+
+        <!-- JTAG to Level Shifter -->
+        <line x1="410" y1="95" x2="466" y2="95" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrow-amber)"/>
+        <text x="438" y="88" fill="#B45309" font-weight="600" font-size="9" text-anchor="middle">TCK/TMS</text>
+
+        <!-- Level Shifter to MCU & FPGA -->
+        <line x1="520" y1="175" x2="380" y2="213" stroke="#8B5CF6" stroke-width="1.8" marker-end="url(#arrow)"/>
+        <line x1="550" y1="175" x2="600" y2="213" stroke="#8B5CF6" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+        <!-- SPI Bus between MCU and FPGA -->
+        <line x1="450" y1="280" x2="516" y2="280" stroke="#0284C7" stroke-width="2.5" marker-end="url(#arrow-blue)"/>
+        <line x1="516" y1="288" x2="452" y2="288" stroke="#10B981" stroke-width="2" marker-end="url(#arrow-green)"/>
+        <text x="485" y="272" fill="#1A1D2E" font-weight="700" font-size="9" text-anchor="middle">SPI Bus (12 MHz)</text>
+        <text x="485" y="304" fill="#64748B" font-size="8" text-anchor="middle">MCU (M) ↔ FPGA (S)</text>
+
+        <!-- Common Star Ground -->
+        <circle cx="670" cy="90" r="14" fill="#64748B"/>
+        <text x="670" y="94" fill="#FFFFFF" font-weight="800" font-size="11" text-anchor="middle">⏚</text>
+        <text x="670" y="120" fill="#64748B" font-weight="700" font-size="9" text-anchor="middle">Star Ground</text>
+        <text x="670" y="132" fill="#94A3B8" font-size="8" text-anchor="middle">Common 0V Ref</text>
+      </svg>
+    </div>
+  `;
+}
+
+function renderJTAGRationale(text) {
+  return `
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="card-subtle" style="border-left: 4px solid var(--primary);">
+        <div class="card-subtle-title" style="color: var(--primary);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          1. Physical & Architectural Paradigm (Shift-Register Testability)
+        </div>
+        <div style="color: var(--text-secondary); line-height: 1.55;">
+          JTAG (IEEE Standard 1149.1) is fundamentally a synchronous shift-register boundary-scan architecture designed for hardware testability, silicon validation, and flash/bitstream programming. It is governed by a synchronous, 16-state finite state machine (TAP Controller) clocked by TCK and steered by TMS. It possesses <strong>no native packet framing, memory-mapped addressing, or compute abstractions</strong>.
+        </div>
+      </div>
+
+      <div class="card-subtle" style="border-left: 4px solid var(--accent-warning);">
+        <div class="card-subtle-title" style="color: var(--accent-warning);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          2. Signal Ownership & Master-Slave Asymmetry
+        </div>
+        <div style="color: var(--text-secondary); line-height: 1.55;">
+          A JTAG debug adapter is strictly a <strong>Bus Master</strong>. It unilaterally owns and drives the clock (TCK), mode select (TMS), and serial data input (TDI). Target boards (MCU, FPGA) are passive slaves that only assert TDO during specific shift states (Shift-IR or Shift-DR). Target boards <strong>cannot initiate communication, request bus access, or trigger host interrupts</strong>.
+        </div>
+      </div>
+
+      <div class="card-subtle" style="border-left: 4px solid var(--accent-success);">
+        <div class="card-subtle-title" style="color: var(--accent-success);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          3. Bandwidth, Voltage Heterogeneity & Compute Interconnect Contrast
+        </div>
+        <div style="color: var(--text-secondary); line-height: 1.55;">
+          • <strong>Voltage Domains:</strong> JTAG has no universal logic voltage. The FPGA core fabric operates at 1.2V while the MCU I/O operates at 3.3V. Active VREF sensing and TXB0108 level shifting are electrically mandatory.<br/>
+          • <strong>Contrast with Compute Buses:</strong> Compute interconnects (PCIe, AXI, Ethernet, USB 3) provide hardware packet arbitration, flow control, and direct memory access. JTAG is a bit-serial scan chain completely unsuited for peer-to-peer distributed compute.
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 // -------------------------------------------------------------
