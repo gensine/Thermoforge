@@ -8,6 +8,7 @@ obj/
 *.dll
 *.so
 *.dylib
+*.zip
 
 # Visual Studio / VS Code
 .vs/

@@ -322,8 +322,9 @@ void HttpServer::handle_client(uintptr_t sock_ptr) {
             }
         } else {
             // Fallback to static files
-            if (req.method == "GET") {
+            if (req.method == "GET" || req.method == "HEAD") {
                 response = serve_static_file(req.path);
+                if (req.method == "HEAD") response.body.clear();
             } else {
                 response = HttpResponse::error(404, "Endpoint not found: " + req.path);
             }
@@ -359,17 +360,43 @@ HttpResponse HttpServer::serve_static_file(const std::string& req_path) {
         return HttpResponse::error(403, "Access Denied: Path traversal detected.");
     }
 
-    std::string full_path = static_dir_ + path;
-    std::ifstream file(full_path, std::ios::in | std::ios::binary);
+    std::vector<std::string> candidate_roots = {
+        static_dir_,
+        "../" + static_dir_,
+        "src/frontend",
+        "../src/frontend",
+        "./frontend",
+        "."
+    };
+
+    std::ifstream file;
+    std::string resolved_path;
+    for (const auto& root : candidate_roots) {
+        std::string p = root + path;
+        file.open(p, std::ios::in | std::ios::binary);
+        if (file.is_open()) {
+            resolved_path = p;
+            break;
+        }
+        file.clear();
+    }
+
     if (!file.is_open()) {
         // Fallback: check if looking for data/ file
         if (req_path.find("/data/") == 0) {
-            std::string data_path = req_path.substr(1); // strip leading slash
-            std::ifstream data_file(data_path, std::ios::in | std::ios::binary);
-            if (data_file.is_open()) {
-                std::string content((std::istreambuf_iterator<char>(data_file)),
-                                     std::istreambuf_iterator<char>());
-                return HttpResponse::text(content);
+            std::vector<std::string> data_candidates = {
+                req_path.substr(1),
+                "../" + req_path.substr(1),
+                "data/" + req_path.substr(6),
+                "../data/" + req_path.substr(6)
+            };
+            for (const auto& dp : data_candidates) {
+                std::ifstream data_file(dp, std::ios::in | std::ios::binary);
+                if (data_file.is_open()) {
+                    std::string content((std::istreambuf_iterator<char>(data_file)),
+                                         std::istreambuf_iterator<char>());
+                    return HttpResponse::text(content);
+                }
             }
         }
         return HttpResponse::error(404, "File not found: " + path);
@@ -515,6 +542,7 @@ void HttpServer::register_workbench_routes() {
 
     // 6. Multicore Execution Benchmark API
     route("POST", "/api/benchmark/run", [](const HttpRequest& req) {
+        multicore::BatchSolver::reset_cancellation();
         int cases = 500;
         int elements = 40;
         if (!req.body.empty()) {
@@ -523,6 +551,12 @@ void HttpServer::register_workbench_routes() {
         }
         auto res = multicore::BatchSolver::run_benchmarks(cases, elements);
         return HttpResponse::json(multicore::BatchSolver::to_json(res));
+    });
+
+    // 6b. Safe Non-blocking Cancellation API
+    route("POST", "/api/cancel", [](const HttpRequest&) {
+        multicore::BatchSolver::request_cancellation();
+        return HttpResponse::json("{\"cancelled\":true,\"message\":\"Compute cancellation requested successfully.\"}");
     });
 
     // 7. Embedded Devices Telemetry & Capabilities API

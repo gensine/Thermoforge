@@ -1,9 +1,9 @@
 # Unified Engineering Workbench - Multicore Execution Benchmark
 # CPU: 13th Gen Intel(R) Core(TM) i5-13500H | Cores: 16 logical
 # RAM: 15.6 GB RAM | Compiler: GCC 14.2.0
-# Workload: 500 cases, 40 elements/case, Warmup=1.467200 ms
+# Workload: 500 cases, 40 elements/case, Warmup=0.850100 ms
 # Serial/Parallel Max Diff: 0.000000 C (Pass <= 1e-8 C: YES)
 workers,rep1_ms,rep2_ms,rep3_ms,rep4_ms,rep5_ms,median_ms,speedup,efficiency
-1,2.120000,1.319900,0.778800,0.941200,0.759900,0.941200,1.000000,1.000000
-2,1.800900,0.794800,0.919100,1.159400,0.837300,0.919100,1.024045,0.512023
-4,1.584700,1.120800,0.938000,1.739300,2.240700,1.584700,0.593929,0.148482
+1,1.236200,0.586300,0.577900,0.583200,0.578400,0.583200,1.000000,1.000000
+2,1.119300,0.691900,0.488200,0.784500,1.084800,0.784500,0.743403,0.371702
+4,0.702500,0.679600,0.709100,1.361500,0.937000,0.709100,0.822451,0.205613

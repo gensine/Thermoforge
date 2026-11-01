@@ -224,6 +224,17 @@
               💾 Export Solution CSV
             </button>
           </div>
+
+          <!-- Assumptions, Units, BCs and Debugging Insight Card -->
+          <div style="margin-top: 1rem; padding: 0.85rem; background: rgba(0,0,0,0.25); border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.76rem; line-height: 1.45;">
+            <div style="font-weight: 600; color: #fff; margin-bottom: 0.4rem;">🔬 Physics Assumptions & Debugging Insight</div>
+            <div style="color: var(--text-muted);">
+              <strong>Assumptions:</strong> 1D steady-state conduction, uniform rod ($L=1.0\text{ m}, A=10^{-4}\text{ m}^2$), constant $k=10\text{ W/(m·K)}$, uniform heat source $q=10,000\text{ W/m}^3$, perfectly insulated lateral surfaces.<br/>
+              <strong>Units:</strong> $[L]=\text{m}, [A]=\text{m}^2, [k]=\text{W/(m·K)}, [q]=\text{W/m}^3, [T]=^\circ\text{C}$.<br/>
+              <strong>Boundary Conditions:</strong> Prescribed Dirichlet $T(0)=100^\circ\text{C}$ and $T(L)=20^\circ\text{C}$.<br/>
+              <strong>Debugging Insight:</strong> In 1D linear FEA, nodal temperatures are superconvergent and algebraically exact ($E_{\text{node}} \approx 0$). Measuring error only at nodes falsely masks discretization error! Evaluating at element midpoints via linear shape functions reveals the true $O(h^2)$ second-order truncation error ($E_{\text{mid}} = 125 h^2$).
+            </div>
+          </div>
         </div>
 
         <!-- Charts Column -->
@@ -257,6 +268,7 @@
           <h2 class="panel-title"><span>🖥️</span> Multicore Batch Workload Execution (C++17 Thread Pool)</h2>
           <div class="panel-actions">
             <button class="btn btn-primary btn-sm" id="btn-run-benchmark">Execute Benchmark</button>
+            <button class="btn btn-danger btn-sm" id="btn-cancel-benchmark">Cancel</button>
             <button class="btn btn-secondary btn-sm" id="btn-export-benchmark-csv">Export Benchmark CSV</button>
           </div>
         </div>
@@ -320,12 +332,24 @@
           <div class="panel-header">
             <h2 class="panel-title"><span>🔌</span> Host-Connected Embedded Targets</h2>
             <div class="panel-actions">
+              <span class="badge" style="background: rgba(245, 158, 11, 0.2); color: var(--accent-amber); border: 1px solid var(--accent-amber);">SIMULATED HARDWARE BEHAVIOUR</span>
               <button class="btn btn-secondary btn-sm" id="btn-refresh-devices">🔄 Refresh Link</button>
             </div>
           </div>
 
           <div id="devices-list-container" style="display: flex; flex-direction: column; gap: 1rem;">
             <!-- Rendered by JS -->
+          </div>
+
+          <!-- Safe Hardware Integration Plan Card -->
+          <div style="margin-top: 1rem; padding: 0.85rem; background: rgba(0,0,0,0.25); border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.76rem; line-height: 1.45;">
+            <div style="font-weight: 600; color: #fff; margin-bottom: 0.4rem;">🛡️ Safe Hardware Integration Plan & Limitations</div>
+            <div style="color: var(--text-muted);">
+              • <strong>Power Sequencing:</strong> Target power rails (3.3V/1.2V) must be stabilized before asserting active JTAG clock/data lines to prevent CMOS latch-up.<br/>
+              • <strong>Star Grounding:</strong> A common star-ground reference at host power entry isolates high-frequency digital noise between FPGA and MCU.<br/>
+              • <strong>Level Shifting:</strong> Bi-directional TXB0108 buffers protect the 1.2V FPGA core from 3.3V MCU digital I/O pins.<br/>
+              • <strong>Scope Boundaries:</strong> Physical PCB layout, wiring harnesses, firmware deployment, and FPGA bitstream synthesis are outside project scope.
+            </div>
           </div>
         </div>
 

@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <algorithm>
 #include <iostream>
+#include <atomic>
 
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -110,11 +111,26 @@ std::vector<BatchCase> BatchSolver::generate_batch(int case_count, int elements_
     return cases;
 }
 
+static std::atomic<bool> s_cancellation_requested{false};
+
+void BatchSolver::request_cancellation() {
+    s_cancellation_requested.store(true);
+}
+
+void BatchSolver::reset_cancellation() {
+    s_cancellation_requested.store(false);
+}
+
+bool BatchSolver::is_cancelled() {
+    return s_cancellation_requested.load();
+}
+
 std::vector<CaseSolveResult> BatchSolver::solve_serial(const std::vector<BatchCase>& cases) {
     std::vector<CaseSolveResult> results;
     results.reserve(cases.size());
 
     for (const auto& c : cases) {
+        if (is_cancelled()) break;
         fea::FEAResult fea_res = fea::ThermalSolver1D::solve(c.params);
         results.push_back({c.case_id, std::move(fea_res)});
     }
@@ -130,6 +146,7 @@ std::vector<CaseSolveResult> BatchSolver::solve_parallel(const std::vector<Batch
 
     for (size_t i = 0; i < n; ++i) {
         pool.enqueue([&cases, &results, i]() {
+            if (is_cancelled()) return;
             fea::FEAResult fea_res = fea::ThermalSolver1D::solve(cases[i].params);
             // Deterministic storage into exact input index
             results[i] = {cases[i].case_id, std::move(fea_res)};

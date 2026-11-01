@@ -84,6 +84,11 @@ public:
     // Solves batch with a bounded pool of p workers (deterministic output ordering)
     static std::vector<CaseSolveResult> solve_parallel(const std::vector<BatchCase>& cases, int num_workers);
 
+    // Safe non-blocking cancellation mechanism
+    static void request_cancellation();
+    static void reset_cancellation();
+    static bool is_cancelled();
+
     // Runs comprehensive multicore benchmark suite (1, 2, and up to 4 workers)
     static BenchmarkSuiteResult run_benchmarks(int case_count = 500, int elements_per_case = 40);
 

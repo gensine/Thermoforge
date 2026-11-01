@@ -150,6 +150,14 @@ void test_multicore() {
 
     TEST_ASSERT(max_diff <= 1e-8, "Serial and parallel solutions agree with max diff <= 1e-8 C");
     std::cout << "    [i] Measured max absolute difference: " << max_diff << " C\n";
+
+    // Non-blocking cancellation test
+    multicore::BatchSolver::request_cancellation();
+    TEST_ASSERT(multicore::BatchSolver::is_cancelled(), "Cancellation flag active after request");
+    auto cancelled_res = multicore::BatchSolver::solve_parallel(cases, 2);
+    // Solves should terminate early
+    multicore::BatchSolver::reset_cancellation();
+    TEST_ASSERT(!multicore::BatchSolver::is_cancelled(), "Cancellation flag cleanly reset for next solve");
 }
 
 void test_embedded_adapters() {

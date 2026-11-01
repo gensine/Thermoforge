@@ -363,6 +363,14 @@ function exportFEACSV() {
 function setupPerformanceView() {
   document.getElementById('btn-run-benchmark').addEventListener('click', runBenchmark);
   document.getElementById('btn-export-benchmark-csv').addEventListener('click', exportBenchmarkCSV);
+  document.getElementById('btn-cancel-benchmark').addEventListener('click', async () => {
+    try {
+      await fetch(`${API_BASE}/api/cancel`, { method: 'POST' });
+      showAlert("Non-blocking compute cancellation requested.", false);
+    } catch (err) {
+      showAlert(`Cancel Error: ${err.message}`);
+    }
+  });
 }
 
 async function runBenchmark() {
