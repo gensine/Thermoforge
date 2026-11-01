@@ -20,3 +20,4 @@ obj/
 Thumbs.db
 *.log
 launch_log.txt
+*.bundle
