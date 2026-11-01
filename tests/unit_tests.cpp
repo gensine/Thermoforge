@@ -10,6 +10,7 @@
 #include "../src/core/multicore/batch_solver.h"
 #include "../src/core/embedded/mock_adapters.h"
 #include "../src/core/backprop/backprop_engine.h"
+#include "../src/server/http_server.h"
 
 using namespace workbench;
 
@@ -205,6 +206,32 @@ void test_backprop() {
               << " -> Final Loss (100 steps): " << train_res.final_loss << "\n";
 }
 
+void test_http_server() {
+    std::cout << "\n=== Running Module 3: HTTP Server & Transport Tests ===\n";
+    server::HttpServer srv("127.0.0.1", 18888, "src/frontend");
+    TEST_ASSERT(!srv.is_running(), "Server initially not running");
+    
+    // Register test route
+    srv.route("GET", "/test/echo", [](const server::HttpRequest&) {
+        return server::HttpResponse::json("{\"echo\":true}");
+    });
+
+    bool started = srv.start();
+    TEST_ASSERT(started, "HTTP Server started on 127.0.0.1:18888");
+    TEST_ASSERT(srv.is_running(), "Server state reports running");
+
+    // Test responses
+    auto json_resp = server::HttpResponse::json("{\"test\":123}", 200);
+    TEST_ASSERT(json_resp.status_code == 200, "JSON response code is 200");
+    TEST_ASSERT(json_resp.content_type.find("application/json") != std::string::npos, "Content-Type is application/json");
+
+    auto err_resp = server::HttpResponse::error(404, "Not Found");
+    TEST_ASSERT(err_resp.status_code == 404, "Error response code is 404");
+
+    srv.stop();
+    TEST_ASSERT(!srv.is_running(), "Server cleanly stopped and freed socket");
+}
+
 int main() {
     std::cout << "========================================================\n";
     std::cout << "   UNIFIED ENGINEERING WORKBENCH - AUTOMATED TEST SUITE \n";
@@ -215,6 +242,7 @@ int main() {
     test_multicore();
     test_embedded_adapters();
     test_backprop();
+    test_http_server();
 
     std::cout << "\n========================================================\n";
     std::cout << "Test Summary: " << tests_passed << " / " << tests_run << " assertions passed.\n";

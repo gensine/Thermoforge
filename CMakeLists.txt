@@ -11,6 +11,9 @@ if(MSVC)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 else()
     add_compile_options(-Wall -Wextra -Wpedantic -O3)
+    if(WIN32)
+        add_link_options(-static -static-libgcc -static-libstdc++)
+    endif()
 endif()
 
 # Core static library
@@ -21,11 +24,16 @@ add_library(workbench_core STATIC
     src/core/multicore/batch_solver.cpp
     src/core/embedded/mock_adapters.cpp
     src/core/backprop/backprop_engine.cpp
+    src/server/http_server.cpp
 )
 
 target_include_directories(workbench_core PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
+
+if(WIN32)
+    target_link_libraries(workbench_core PUBLIC ws2_32)
+endif()
 
 # Automated Unit Tests
 add_executable(unit_tests
@@ -38,6 +46,12 @@ add_executable(workbench_cli
     src/cli/main.cpp
 )
 target_link_libraries(workbench_cli PRIVATE workbench_core)
+
+# Standalone Application Server (GUI backend)
+add_executable(workbench_server
+    src/server/main.cpp
+)
+target_link_libraries(workbench_server PRIVATE workbench_core)
 
 # Enable CTest
 enable_testing()
