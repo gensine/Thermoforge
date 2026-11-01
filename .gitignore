@@ -1,0 +1,19 @@
+# Build directories
+build/
+bin/
+obj/
+*.exe
+*.o
+*.obj
+*.dll
+*.so
+*.dylib
+
+# Visual Studio / VS Code
+.vs/
+*.user
+*.suo
+
+# Antigravity & OS files
+.DS_Store
+Thumbs.db
