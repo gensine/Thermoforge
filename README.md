@@ -138,7 +138,9 @@ Results summary:
 │   └── ansys_thermal_results.csv # 1,000-node synthetic ANSYS export
 ├── docs/                         # Engineering documentation & evidence
 │   ├── ENGINEERING_REPORT.md     # 6-page comprehensive technical report
+│   ├── TaskF_Handwritten_Derivation.pdf # 2-page Task F handwritten derivation
 │   ├── TASK_F_HANDWRITTEN.md     # Task F backpropagation derivation
+│   ├── AI_USE_LOG.md             # AI assistance disclosure and challenge test
 │   └── WALKTHROUGH_LOGS.md       # Timestamped execution logs and walkthrough
 ├── results/                      # Numerical benchmark outputs & CSVs
 │   ├── thermal_fea_solution.csv
