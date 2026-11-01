@@ -49,7 +49,7 @@ class WebGL3DViewer {
 
   initGL() {
     const gl = this.gl;
-    gl.clearColor(0.04, 0.06, 0.1, 1.0);
+    gl.clearColor(0.933, 0.945, 0.980, 1.0); // Clean studio background (#EEF1FA)
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
 
@@ -78,8 +78,8 @@ class WebGL3DViewer {
         vec3 norm = normalize(v_normal);
         vec3 light = normalize(u_lightDir);
         float diff = max(dot(norm, light), 0.0);
-        float ambient = 0.25;
-        vec3 color = u_baseColor * (ambient + 0.75 * diff);
+        float ambient = 0.40;
+        vec3 color = u_baseColor * (ambient + 0.65 * diff);
         gl_FragColor = vec4(color, 1.0);
       }
     `;
@@ -361,7 +361,7 @@ class WebGL3DViewer {
       gl.uniformMatrix4fv(uMVP, false, new Float32Array(mvp));
       gl.uniformMatrix4fv(uModel, false, new Float32Array(this.identity()));
       gl.uniform3f(uLight, 0.6, 0.8, 0.5);
-      gl.uniform3f(uColor, 0.28, 0.45, 0.72); // Technical blue-gray
+      gl.uniform3f(uColor, 0.42, 0.35, 0.92); // Vibrant modern violet CAD mesh
 
       gl.bindBuffer(gl.ARRAY_BUFFER, this.meshVBO);
       const aPos = gl.getAttribLocation(this.progMesh, "a_position");

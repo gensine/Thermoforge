@@ -460,31 +460,32 @@ async function loadHardwareDevices() {
     for (const d of data.devices) {
       const card = document.createElement('div');
       card.className = 'panel';
-      card.style.background = 'rgba(15, 23, 42, 0.4)';
-      card.style.border = d.fault_active ? '1px solid var(--accent-rose)' : '1px solid var(--border-color)';
+      card.style.background = 'var(--bg-card)';
+      card.style.border = d.fault_active ? '1.5px solid var(--accent-danger)' : '1px solid var(--border-light)';
+      card.style.boxShadow = 'var(--shadow-sm)';
 
       const stateBadge = d.state === 2 ? '<span class="badge badge-connected">CONNECTED</span>' 
                        : (d.state === 3 ? '<span class="badge badge-faulted">FAULT: TIMEOUT</span>' 
-                       : '<span class="badge badge-disconnected">DISCONNECTED</span>');
+                       : '<span class="badge badge-warning">DISCONNECTED</span>');
 
       card.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
           <div>
-            <strong style="color: #fff; font-size: 0.92rem;">${d.name}</strong>
-            <div style="font-size: 0.72rem; color: var(--text-dim);">${d.id} • ${d.clock}</div>
+            <strong style="color: var(--text-main); font-size: 0.94rem;">${d.name}</strong>
+            <div style="font-size: 0.74rem; color: var(--text-muted); font-family: var(--font-mono);">${d.id} • ${d.clock}</div>
           </div>
           ${stateBadge}
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; font-size: 0.8rem; margin-bottom: 0.75rem; background: rgba(0,0,0,0.25); padding: 0.5rem; border-radius: 6px;">
-          <div><span style="color: var(--text-dim);">Rail:</span> <strong>${d.voltage_V.toFixed(2)} V</strong></div>
-          <div><span style="color: var(--text-dim);">Current:</span> <strong>${d.current_mA.toFixed(1)} mA</strong></div>
-          <div><span style="color: var(--text-dim);">Temp:</span> <strong>${d.temp_C.toFixed(1)} °C</strong></div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; font-size: 0.8rem; margin-bottom: 0.75rem; background: var(--bg-card-subtle); border: 1px solid var(--border-light); padding: 0.6rem; border-radius: var(--radius-sm);">
+          <div><span style="color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase;">Rail:</span> <strong style="color: var(--text-main); font-family: var(--font-mono);">${d.voltage_V.toFixed(2)} V</strong></div>
+          <div><span style="color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase;">Current:</span> <strong style="color: var(--text-main); font-family: var(--font-mono);">${d.current_mA.toFixed(1)} mA</strong></div>
+          <div><span style="color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase;">Temp:</span> <strong style="color: var(--text-main); font-family: var(--font-mono);">${d.temp_C.toFixed(1)} °C</strong></div>
         </div>
 
-        <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">
-          <div>Status: <span style="font-family: var(--font-mono); color: #cbd5e1;">${d.status_word}</span></div>
-          ${d.fault_active ? `<div style="color: var(--accent-rose); margin-top: 0.25rem;">⚠️ ${d.fault_message}</div>` : ''}
+        <div style="font-size: 0.76rem; color: var(--text-secondary); margin-bottom: 0.85rem;">
+          <div>Status: <span style="font-family: var(--font-mono); font-weight: 600; color: var(--text-main);">${d.status_word}</span></div>
+          ${d.fault_active ? `<div style="color: var(--accent-danger); font-weight: 600; margin-top: 0.25rem;">⚠️ ${d.fault_message}</div>` : ''}
         </div>
 
         <div style="display: flex; gap: 0.5rem;">
@@ -492,7 +493,7 @@ async function loadHardwareDevices() {
             <button class="btn btn-secondary btn-sm" onclick="sendDeviceAction('${d.id}', 'disconnect')">Disconnect</button>
             <button class="btn btn-danger btn-sm" onclick="sendDeviceAction('${d.id}', 'inject_fault')">Simulate Timeout</button>
           ` : (d.state === 3 ? `
-            <button class="btn btn-success btn-sm" onclick="sendDeviceAction('${d.id}', 'recover')">⚡ Recover Link</button>
+            <button class="btn btn-primary btn-sm" onclick="sendDeviceAction('${d.id}', 'recover')">Recover Link</button>
           ` : `
             <button class="btn btn-primary btn-sm" onclick="sendDeviceAction('${d.id}', 'connect')">Connect Target</button>
           `)}

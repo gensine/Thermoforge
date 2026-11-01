@@ -14,10 +14,10 @@ If you downloaded the packaged archive (`CandidateID_Workbench.zip`):
 
 ---
 
-## 2. Editor Run Configuration (VS Code / Antigravity)
+## 2. Editor Run Configuration (VS Code)
 
 The repository includes a ready-to-use editor run configuration in [`.vscode/launch.json`](file:///.vscode/launch.json):
-1. Open the repository root folder in VS Code or Antigravity IDE.
+1. Open the repository root folder in VS Code.
 2. Navigate to the **Run & Debug** panel (`Ctrl+Shift+D`).
 3. Select **"Launch Unified Engineering Workbench (Packaged)"** from the dropdown.
 4. Press `F5` or click **Start Debugging**.

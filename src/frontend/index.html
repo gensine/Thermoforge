@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Unified Engineering Workbench | Pass Science Works R&D</title>
+  <title>Thermoforge | Unified Engineering Workbench</title>
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/workbench.css" />
 </head>
 <body>
@@ -11,44 +15,85 @@
   <!-- Top Navigation Header -->
   <header class="header">
     <div class="brand">
-      <div class="brand-icon">⚡</div>
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+          <polyline points="2 17 12 22 22 17"></polyline>
+          <polyline points="2 12 12 17 22 12"></polyline>
+        </svg>
+      </div>
       <div class="brand-text">
-        <h1>Unified Engineering Workbench</h1>
-        <div class="brand-subtitle">Pass Science Works | R&D Internship 2026-2027</div>
+        <h1>Thermoforge</h1>
+        <div class="brand-subtitle">Pass Science Works • R&D Engineering Workbench</div>
       </div>
     </div>
 
     <!-- Navigation Tabs -->
     <nav class="nav-tabs" id="nav-tabs">
       <button class="nav-tab active" data-tab="tab-geometry" id="btn-tab-geometry">
-        <span>📐</span> Geometry View
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+          <line x1="12" y1="22.08" x2="12" y2="12"></line>
+        </svg>
+        <span>Geometry & Fields</span>
       </button>
       <button class="nav-tab" data-tab="tab-thermal" id="btn-tab-thermal">
-        <span>🔥</span> Thermal FEA
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
+        </svg>
+        <span>Thermal FEA</span>
       </button>
       <button class="nav-tab" data-tab="tab-performance" id="btn-tab-performance">
-        <span>🚀</span> Performance
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+          <rect x="9" y="9" width="6" height="6"></rect>
+          <line x1="9" y1="1" x2="9" y2="4"></line>
+          <line x1="15" y1="1" x2="15" y2="4"></line>
+          <line x1="9" y1="20" x2="9" y2="23"></line>
+          <line x1="15" y1="20" x2="15" y2="23"></line>
+          <line x1="20" y1="9" x2="23" y2="9"></line>
+          <line x1="20" y1="14" x2="23" y2="14"></line>
+          <line x1="1" y1="9" x2="4" y2="9"></line>
+          <line x1="1" y1="14" x2="4" y2="14"></line>
+        </svg>
+        <span>Performance</span>
       </button>
       <button class="nav-tab" data-tab="tab-hardware" id="btn-tab-hardware">
-        <span>🔌</span> Hardware View
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+          <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+          <line x1="6" y1="6" x2="6.01" y2="6"></line>
+          <line x1="6" y1="18" x2="6.01" y2="18"></line>
+        </svg>
+        <span>Hardware View</span>
       </button>
       <button class="nav-tab" data-tab="tab-backprop" id="btn-tab-backprop">
-        <span>🧠</span> Backpropagation
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18" cy="5" r="3"></circle>
+          <circle cx="6" cy="12" r="3"></circle>
+          <circle cx="18" cy="19" r="3"></circle>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        </svg>
+        <span>Backpropagation</span>
       </button>
     </nav>
 
     <div class="header-status">
       <div class="status-pill" id="backend-status-pill">
         <div class="status-dot"></div>
-        <span id="backend-status-text">C++ Core: ONLINE</span>
+        <span id="backend-status-text">C++ Engine: ONLINE</span>
       </div>
     </div>
   </header>
 
-  <!-- Global Actionable Message Box -->
-  <div id="global-alert-container" style="max-width: 1600px; margin: 1rem auto 0; padding: 0 1.5rem; display: none;">
+  <!-- Global Actionable Alert Box -->
+  <div id="global-alert-container" style="max-width: 1600px; margin: 1rem auto 0; padding: 0 2rem; display: none;">
     <div class="alert alert-danger" id="global-alert">
-      <span id="alert-icon">⚠️</span>
+      <span id="alert-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+      </span>
       <span id="alert-msg"></span>
     </div>
   </div>
@@ -63,7 +108,10 @@
         <!-- Controls Column -->
         <div class="panel">
           <div class="panel-header">
-            <h2 class="panel-title"><span>📂</span> Dataset Ingestion</h2>
+            <h2 class="panel-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+              <span>Dataset Ingestion</span>
+            </h2>
             <div class="panel-actions">
               <button class="btn btn-secondary btn-sm" id="btn-load-sample-stl">Sample STL</button>
               <button class="btn btn-secondary btn-sm" id="btn-load-sample-csv">Sample ANSYS</button>
@@ -72,9 +120,11 @@
 
           <!-- Drag and Drop Zone -->
           <div class="drop-zone" id="geometry-drop-zone">
-            <div class="drop-zone-icon">📥</div>
-            <div style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.25rem;">Drag & Drop ASCII STL or ANSYS CSV</div>
-            <div style="font-size: 0.75rem; color: var(--text-dim);">or click to browse local files</div>
+            <div class="drop-zone-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            </div>
+            <div style="font-weight: 700; font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.25rem;">Drop ASCII STL or ANSYS CSV file</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">or click to browse local files</div>
             <input type="file" id="file-input-geometry" accept=".stl,.csv,.txt" style="display: none;" />
           </div>
 
@@ -88,37 +138,37 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label">Tested File Size Limits</label>
-              <div style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">
-                • ASCII STL: Stream-validated up to <strong>250,000 facets</strong> (~50 MB).<br/>
+              <label class="form-label">Tested Ingestion Limits</label>
+              <div style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5;">
+                • ASCII STL: Stream-parsed up to <strong>250,000 facets</strong> (~50 MB).<br/>
                 • ANSYS CSV: Validated up to <strong>1,000,000 nodes</strong> (~65 MB).
               </div>
             </div>
 
             <!-- Model Metadata Card -->
-            <div id="model-meta-card" style="margin-top: 1rem; padding: 0.85rem; background: rgba(0,0,0,0.25); border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.8rem;">
-              <div style="font-weight: 600; color: #fff; margin-bottom: 0.4rem;" id="meta-title">Dataset Properties</div>
-              <div id="meta-details" style="color: var(--text-muted); line-height: 1.5;">
-                Load an ASCII STL or ANSYS nodal CSV export to inspect geometry and temperature fields.
+            <div id="model-meta-card" class="card-subtle" style="margin-top: 1rem;">
+              <div class="card-subtle-title" id="meta-title">Dataset Properties</div>
+              <div id="meta-details" style="color: var(--text-secondary); line-height: 1.5;">
+                Load an ASCII STL or ANSYS nodal CSV export to inspect 3D geometry and thermal scalar fields.
               </div>
             </div>
           </div>
         </div>
 
         <!-- 3D WebGL Viewport Column -->
-        <div class="panel" style="padding: 0.75rem;">
+        <div class="panel" style="padding: 0.85rem;">
           <div class="viewport-container" id="viewport-box">
             <canvas class="viewport-canvas" id="canvas-3d"></canvas>
 
             <!-- On-Screen Viewport Tools -->
             <div class="viewport-overlay">
-              <button class="btn btn-secondary btn-sm" id="btn-fit-view">🔍 Fit to View</button>
-              <button class="btn btn-secondary btn-sm" id="btn-reset-cam">🔄 Reset Orbit</button>
+              <button class="btn btn-secondary btn-sm" id="btn-fit-view">Fit to View</button>
+              <button class="btn btn-secondary btn-sm" id="btn-reset-cam">Reset View</button>
             </div>
 
             <!-- Temperature Legend Bar -->
             <div class="viewport-legend" id="viewport-legend" style="display: none;">
-              <div style="font-weight: 600; font-size: 0.75rem; color: #fff;">Temperature Field [°C]</div>
+              <div style="font-weight: 700; font-size: 0.76rem; color: var(--text-main); margin-bottom: 0.2rem;">Temperature Field [°C]</div>
               <div class="legend-bar"></div>
               <div class="legend-labels">
                 <span id="legend-min">20.0 °C</span>
@@ -146,7 +196,7 @@
         <div class="metric-card">
           <div class="metric-label">Max Midpoint Error</div>
           <div class="metric-val" id="metric-fea-max-err">1.2500 °C</div>
-          <div class="metric-sub" id="metric-fea-rate">Theoretical: 125 * h^2</div>
+          <div class="metric-sub" id="metric-fea-rate">Theoretical: 125 * h²</div>
         </div>
         <div class="metric-card">
           <div class="metric-label">L2 Interpolation Error</div>
@@ -155,7 +205,7 @@
         </div>
         <div class="metric-card">
           <div class="metric-label">Compute Time</div>
-          <div class="metric-val" id="metric-fea-time">< 0.01 ms</div>
+          <div class="metric-val" id="metric-fea-time">&lt; 0.01 ms</div>
           <div class="metric-sub">Thomas O(N) Solver</div>
         </div>
       </div>
@@ -164,7 +214,10 @@
         <!-- Solver Parameters Column -->
         <div class="panel">
           <div class="panel-header">
-            <h2 class="panel-title"><span>⚙️</span> Thermal Parameters</h2>
+            <h2 class="panel-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Thermal Parameters</span>
+            </h2>
             <div class="panel-actions">
               <button class="btn btn-primary btn-sm" id="btn-run-fea">Solve FEA</button>
             </div>
@@ -215,24 +268,26 @@
 
           <div class="form-group" style="margin-top: 1rem;">
             <button class="btn btn-secondary btn-sm" style="width: 100%;" id="btn-run-convergence">
-              📊 Run Full Convergence Study (N=10,20,40,80)
+              Run Convergence Study (N=10, 20, 40, 80)
             </button>
           </div>
 
           <div class="form-group">
             <button class="btn btn-secondary btn-sm" style="width: 100%;" id="btn-export-fea-csv">
-              💾 Export Solution CSV
+              Export Solution CSV
             </button>
           </div>
 
           <!-- Assumptions, Units, BCs and Debugging Insight Card -->
-          <div style="margin-top: 1rem; padding: 0.85rem; background: rgba(0,0,0,0.25); border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.76rem; line-height: 1.45;">
-            <div style="font-weight: 600; color: #fff; margin-bottom: 0.4rem;">🔬 Physics Assumptions & Debugging Insight</div>
-            <div style="color: var(--text-muted);">
-              <strong>Assumptions:</strong> 1D steady-state conduction, uniform rod ($L=1.0\text{ m}, A=10^{-4}\text{ m}^2$), constant $k=10\text{ W/(m·K)}$, uniform heat source $q=10,000\text{ W/m}^3$, perfectly insulated lateral surfaces.<br/>
-              <strong>Units:</strong> $[L]=\text{m}, [A]=\text{m}^2, [k]=\text{W/(m·K)}, [q]=\text{W/m}^3, [T]=^\circ\text{C}$.<br/>
-              <strong>Boundary Conditions:</strong> Prescribed Dirichlet $T(0)=100^\circ\text{C}$ and $T(L)=20^\circ\text{C}$.<br/>
-              <strong>Debugging Insight:</strong> In 1D linear FEA, nodal temperatures are superconvergent and algebraically exact ($E_{\text{node}} \approx 0$). Measuring error only at nodes falsely masks discretization error! Evaluating at element midpoints via linear shape functions reveals the true $O(h^2)$ second-order truncation error ($E_{\text{mid}} = 125 h^2$).
+          <div class="card-subtle" style="margin-top: 1rem;">
+            <div class="card-subtle-title">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              Physics Assumptions & Debugging Insight
+            </div>
+            <div style="color: var(--text-secondary); line-height: 1.5;">
+              <strong>Assumptions:</strong> 1D steady-state conduction, uniform rod ($L=1.0\text{ m}, A=10^{-4}\text{ m}^2$), constant $k=10\text{ W/(m·K)}$, uniform source $q=10,000\text{ W/m}^3$, perfectly insulated lateral surfaces.<br/>
+              <strong>Boundary Conditions:</strong> Dirichlet $T(0)=100^\circ\text{C}$ and $T(L)=20^\circ\text{C}$.<br/>
+              <strong>Superconvergence Insight:</strong> In 1D linear FEA, nodal temperatures are algebraically exact ($E_{\text{node}} \approx 0$). Measuring error only at nodes masks truncation error. Evaluating at element midpoints reveals the true $O(h^2)$ quadratic truncation error ($E_{\text{mid}} = 125 h^2$).
             </div>
           </div>
         </div>
@@ -241,7 +296,10 @@
         <div style="display: flex; flex-direction: column; gap: 1.5rem;">
           <div class="panel">
             <div class="panel-header">
-              <h3 class="panel-title"><span>📈</span> Temperature Distribution vs Analytical Solution</h3>
+              <h3 class="panel-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                <span>Temperature Distribution vs Analytical Solution</span>
+              </h3>
             </div>
             <div class="chart-container">
               <canvas class="chart-canvas" id="canvas-thermal-chart"></canvas>
@@ -250,7 +308,10 @@
 
           <div class="panel" id="panel-convergence-study">
             <div class="panel-header">
-              <h3 class="panel-title"><span>📉</span> Mesh Convergence Rate (Log-Log Midpoint Error)</h3>
+              <h3 class="panel-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                <span>Mesh Convergence Rate (Log-Log Midpoint Error)</span>
+              </h3>
             </div>
             <div class="chart-container">
               <canvas class="chart-canvas" id="canvas-convergence-chart"></canvas>
@@ -265,7 +326,10 @@
     <section class="tab-pane" id="tab-performance">
       <div class="panel" style="margin-bottom: 1.5rem;">
         <div class="panel-header">
-          <h2 class="panel-title"><span>🖥️</span> Multicore Batch Workload Execution (C++17 Thread Pool)</h2>
+          <h2 class="panel-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            <span>Multicore Batch Workload Execution (C++17 Thread Pool)</span>
+          </h2>
           <div class="panel-actions">
             <button class="btn btn-primary btn-sm" id="btn-run-benchmark">Execute Benchmark</button>
             <button class="btn btn-danger btn-sm" id="btn-cancel-benchmark">Cancel</button>
@@ -276,7 +340,7 @@
         <div class="metrics-row">
           <div class="metric-card">
             <div class="metric-label">Detected CPU</div>
-            <div class="metric-val" style="font-size: 1.05rem;" id="perf-cpu-name">Intel Core i5-13500H</div>
+            <div class="metric-val" style="font-size: 1.15rem;" id="perf-cpu-name">Intel Core i5-13500H</div>
             <div class="metric-sub" id="perf-cores-sub">16 Logical Cores</div>
           </div>
           <div class="metric-card">
@@ -286,12 +350,12 @@
           </div>
           <div class="metric-card">
             <div class="metric-label">Numerical Agreement</div>
-            <div class="metric-val" style="color: var(--accent-emerald);" id="perf-agreement-val">0.00 C</div>
-            <div class="metric-sub">Max diff <= 1e-8 °C: VERIFIED</div>
+            <div class="metric-val" style="color: var(--accent-success);" id="perf-agreement-val">0.00 °C</div>
+            <div class="metric-sub">Max diff &le; 1e-8 °C: VERIFIED</div>
           </div>
           <div class="metric-card">
-            <div class="metric-label">Compiler & Flags</div>
-            <div class="metric-val" style="font-size: 0.95rem;" id="perf-compiler-val">GCC 14.2.0</div>
+            <div class="metric-label">Compiler & Optimization</div>
+            <div class="metric-val" style="font-size: 1.15rem;" id="perf-compiler-val">GCC 14.2.0</div>
             <div class="metric-sub">-O3 (Release / Static)</div>
           </div>
         </div>
@@ -304,13 +368,13 @@
                   <tr>
                     <th>Workers (p)</th>
                     <th>Median [ms]</th>
-                    <th>Speedup (T1/Tp)</th>
+                    <th>Speedup (T₁/T_p)</th>
                     <th>Efficiency</th>
                     <th>5 Measured Repetitions [ms]</th>
                   </tr>
                 </thead>
                 <tbody id="tbody-benchmarks">
-                  <tr><td colspan="5" style="text-align: center; color: var(--text-dim);">Click 'Execute Benchmark' to run 5-repetition multi-threaded profiling.</td></tr>
+                  <tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 1.5rem;">Click 'Execute Benchmark' to run 5-repetition multi-threaded profiling.</td></tr>
                 </tbody>
               </table>
             </div>
@@ -330,10 +394,13 @@
         <!-- Live Devices & Mock Telemetry -->
         <div class="panel">
           <div class="panel-header">
-            <h2 class="panel-title"><span>🔌</span> Host-Connected Embedded Targets</h2>
+            <h2 class="panel-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+              <span>Host-Connected Embedded Targets</span>
+            </h2>
             <div class="panel-actions">
-              <span class="badge" style="background: rgba(245, 158, 11, 0.2); color: var(--accent-amber); border: 1px solid var(--accent-amber);">SIMULATED HARDWARE BEHAVIOUR</span>
-              <button class="btn btn-secondary btn-sm" id="btn-refresh-devices">🔄 Refresh Link</button>
+              <span class="badge badge-warning">SIMULATED HARDWARE</span>
+              <button class="btn btn-secondary btn-sm" id="btn-refresh-devices">Refresh Link</button>
             </div>
           </div>
 
@@ -342,9 +409,12 @@
           </div>
 
           <!-- Safe Hardware Integration Plan Card -->
-          <div style="margin-top: 1rem; padding: 0.85rem; background: rgba(0,0,0,0.25); border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.76rem; line-height: 1.45;">
-            <div style="font-weight: 600; color: #fff; margin-bottom: 0.4rem;">🛡️ Safe Hardware Integration Plan & Limitations</div>
-            <div style="color: var(--text-muted);">
+          <div class="card-subtle" style="margin-top: 1.25rem;">
+            <div class="card-subtle-title">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              Safe Hardware Integration Plan & Limitations
+            </div>
+            <div style="color: var(--text-secondary); line-height: 1.5;">
               • <strong>Power Sequencing:</strong> Target power rails (3.3V/1.2V) must be stabilized before asserting active JTAG clock/data lines to prevent CMOS latch-up.<br/>
               • <strong>Star Grounding:</strong> A common star-ground reference at host power entry isolates high-frequency digital noise between FPGA and MCU.<br/>
               • <strong>Level Shifting:</strong> Bi-directional TXB0108 buffers protect the 1.2V FPGA core from 3.3V MCU digital I/O pins.<br/>
@@ -356,7 +426,10 @@
         <!-- Architecture, Pinout & JTAG Rationale -->
         <div class="panel">
           <div class="panel-header">
-            <h2 class="panel-title"><span>📑</span> Interface & Voltage Specification</h2>
+            <h2 class="panel-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              <span>Interface & Voltage Specification</span>
+            </h2>
           </div>
 
           <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
@@ -365,7 +438,7 @@
             <button class="btn btn-secondary btn-sm" id="btn-sub-jtag">JTAG Rationale</button>
           </div>
 
-          <div id="hardware-spec-content" style="font-size: 0.82rem; line-height: 1.5; color: var(--text-muted); max-height: 480px; overflow-y: auto; padding-right: 0.5rem;">
+          <div id="hardware-spec-content" style="font-size: 0.82rem; line-height: 1.5; color: var(--text-secondary); max-height: 480px; overflow-y: auto; padding-right: 0.5rem;">
             <!-- Loaded dynamically -->
           </div>
         </div>
@@ -383,13 +456,13 @@
         </div>
         <div class="metric-card">
           <div class="metric-label">Architecture</div>
-          <div class="metric-val" style="font-size: 1.05rem;">tanh(wx+b) -> vh+c</div>
-          <div class="metric-sub">Loss: J = 0.5 * (y_hat - y)^2</div>
+          <div class="metric-val" style="font-size: 1.15rem;">tanh(wx+b) &rarr; vh+c</div>
+          <div class="metric-sub">Loss: J = 0.5 &middot; (ŷ - y)²</div>
         </div>
         <div class="metric-card">
           <div class="metric-label">Finite Diff Checks</div>
-          <div class="metric-val" style="color: var(--accent-emerald);" id="bp-check-status">ALL PASSED</div>
-          <div class="metric-sub">eps = 1e-6, err <= 1e-5</div>
+          <div class="metric-val" style="color: var(--accent-success);" id="bp-check-status">ALL PASSED</div>
+          <div class="metric-sub">&epsilon; = 1e-6, err &le; 1e-5</div>
         </div>
         <div class="metric-card">
           <div class="metric-label">100-Step Convergence</div>
@@ -401,7 +474,10 @@
       <div class="view-grid-equal">
         <div class="panel">
           <div class="panel-header">
-            <h3 class="panel-title"><span>🔍</span> Central Finite Difference Verification</h3>
+            <h3 class="panel-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <span>Central Finite Difference Verification</span>
+            </h3>
             <button class="btn btn-primary btn-sm" id="btn-run-backprop">Re-run 100 Steps</button>
           </div>
 
@@ -410,7 +486,7 @@
               <thead>
                 <tr>
                   <th>Parameter</th>
-                  <th>Analytical ∂J/∂θ</th>
+                  <th>Analytical &part;J/&part;&theta;</th>
                   <th>Numerical Central Diff</th>
                   <th>Absolute Error</th>
                   <th>Verification</th>
@@ -425,15 +501,23 @@
             </table>
           </div>
 
-          <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; background: rgba(0,0,0,0.25); padding: 0.75rem; border-radius: 8px;">
-            <strong>Gradient Direction Insight:</strong><br/>
-            All four gradients are strictly negative because the initial prediction $\hat{y} \approx 0.462$ underestimates target $y = 2.0$. In gradient descent ($\theta \leftarrow \theta - \eta \nabla$), subtracting a negative quantity increases every parameter, boosting $\hat{y}$ upwards toward the target!
+          <div class="card-subtle" style="margin-top: 1rem;">
+            <div class="card-subtle-title">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+              Gradient Direction Insight
+            </div>
+            <div style="color: var(--text-secondary); line-height: 1.5;">
+              All four gradients are strictly negative because initial prediction $\hat{y} \approx 0.462$ underestimates target $y = 2.0$. Under gradient descent ($\theta \leftarrow \theta - \eta \nabla$), subtracting negative quantities increases every parameter, driving $\hat{y}$ upwards toward the target.
+            </div>
           </div>
         </div>
 
         <div class="panel">
           <div class="panel-header">
-            <h3 class="panel-title"><span>📉</span> 100-Step Training Loss Curve</h3>
+            <h3 class="panel-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              <span>100-Step Training Loss Curve</span>
+            </h3>
           </div>
           <div class="chart-container" style="height: 340px;">
             <canvas class="chart-canvas" id="canvas-backprop-chart"></canvas>
@@ -448,17 +532,17 @@
   <footer class="footer">
     <div class="footer-stats">
       <div class="footer-stat-item">
-        <span>Target:</span> <strong style="color: var(--text-main);">Windows 11 x64</strong>
+        <span>Target:</span> <strong>Windows 11 x64</strong>
       </div>
       <div class="footer-stat-item">
-        <span>Backend:</span> <strong style="color: var(--accent-emerald);">C++17 Standalone</strong>
+        <span>Engine:</span> <strong style="color: var(--accent-success);">C++17 Native</strong>
       </div>
       <div class="footer-stat-item">
-        <span>Launch-to-Ready:</span> <strong id="footer-ready-time" style="color: var(--accent-blue);">0.18 s</strong>
+        <span>Launch-to-Ready:</span> <strong id="footer-ready-time" style="color: var(--primary);">0.18 s</strong>
       </div>
     </div>
     <div>
-      <span>Pass Science Works Common Internship Assessment 2026-2027</span>
+      <span>Pass Science Works • R&D Assessment Workbench</span>
     </div>
   </footer>
 

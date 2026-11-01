@@ -223,7 +223,7 @@ The C++ test suite ([`tests/unit_tests.cpp`](file:///tests/unit_tests.cpp)) vali
 ### 7.2 Packaging Evidence
 * Standalone executable [`Launch.exe`](file:///Launch.exe) compiled with `-mwindows` and static runtime linking.
 * Tested on Windows 11 x64 clean machine.
-* Ready-to-run VS Code / Antigravity configurations included in [`.vscode/launch.json`](file:///.vscode/launch.json).
+* Ready-to-run VS Code configurations included in [`.vscode/launch.json`](file:///.vscode/launch.json).
 
 ---
 *End of Technical Report.*

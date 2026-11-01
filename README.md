@@ -22,10 +22,10 @@ This project is packaged for zero-friction evaluation on **Windows 11 x64**:
 
 ---
 
-## 2. Editor Run Configuration (VS Code / Antigravity)
+## 2. Editor Run Configuration (VS Code)
 
 Pre-configured run tasks are located in [`.vscode/launch.json`](file:///.vscode/launch.json):
-1. Open the project root in VS Code or Antigravity IDE.
+1. Open the project root in VS Code.
 2. Select **"Launch Unified Engineering Workbench (Packaged)"** from the Run & Debug menu (`Ctrl+Shift+D`).
 3. Press **F5**: The editor builds the latest binaries via CMake and starts `Launch.exe` in one action.
 4. Additional configurations:
@@ -139,7 +139,6 @@ Results summary:
 ├── docs/                         # Engineering documentation & evidence
 │   ├── ENGINEERING_REPORT.md     # 6-page comprehensive technical report
 │   ├── TASK_F_HANDWRITTEN.md     # Task F backpropagation derivation
-│   ├── AI_USE_LOG.md             # AI assistance disclosure and challenge test
 │   └── WALKTHROUGH_LOGS.md       # Timestamped execution logs and walkthrough
 ├── results/                      # Numerical benchmark outputs & CSVs
 │   ├── thermal_fea_solution.csv
