@@ -57,7 +57,7 @@ The system strictly decouples the C++17 computational engine from presentation a
 * **`src/core/embedded/`**: State machines for STM32 MCU, Lattice iCE40 FPGA, and FT2232H JTAG Debug Adapter with telemetry streaming and recoverable timeout fault simulation.
 * **`src/core/backprop/`**: Neural network backpropagation engine without autodiff, verified against central finite differences within $10^{-10}$ error.
 * **`src/server/`**: Standalone native HTTP/REST server (`ws2_32`) serving API endpoints and static assets with directory traversal protection.
-* **`src/frontend/`**: Responsive dark-theme dashboard featuring native 3D WebGL (flat-shaded STL mesh and Turbo colored point cloud with node inspector) and 2D canvas scientific charts.
+* **`src/frontend/`**: Responsive modern studio dashboard featuring native 3D WebGL (flat-shaded STL mesh and Turbo colored point cloud with node inspector) and 2D canvas scientific charts.
 
 ---
 
