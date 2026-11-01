@@ -1,0 +1,53 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Unified Engineering Workbench (Packaged)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/Launch.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "preLaunchTask": "Build Workbench"
+    },
+    {
+      "name": "Run C++ Server (Console)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/workbench_server.exe",
+      "args": ["--port", "8080"],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": true,
+      "preLaunchTask": "Build Workbench"
+    },
+    {
+      "name": "Run Automated Unit Tests",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/unit_tests.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "preLaunchTask": "Build Workbench"
+    },
+    {
+      "name": "Headless CLI (Run All Evidence Benchmarks)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/workbench_cli.exe",
+      "args": ["--run-all"],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "preLaunchTask": "Build Workbench"
+    }
+  ]
+}

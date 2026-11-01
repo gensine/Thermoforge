@@ -53,6 +53,18 @@ add_executable(workbench_server
 )
 target_link_libraries(workbench_server PRIVATE workbench_core)
 
+# Standalone One-Click Windows GUI Launcher (Launch.exe)
+if(WIN32)
+    add_executable(Launch WIN32
+        src/launcher/launcher_main.cpp
+    )
+    target_link_libraries(Launch PRIVATE workbench_core)
+    set_target_properties(Launch PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+        LINK_FLAGS "-mwindows -static"
+    )
+endif()
+
 # Enable CTest
 enable_testing()
 add_test(NAME AllUnitTests COMMAND unit_tests)
